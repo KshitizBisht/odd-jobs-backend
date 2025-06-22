@@ -14,27 +14,27 @@ import java.util.List;
 @RequestMapping("/jobs")
 @RequiredArgsConstructor
 @Slf4j
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {"exp://192.168.1.115:8081", "http://localhost:8081"})
 public class JobController {
 
     private final JobService jobService;
 
-    @GetMapping("/{gigId}")
-    public JobDto getGig(@PathVariable String gigId) {
-        log.info("Request receive to get gig for gigId {}", gigId);
-        return Job.convertToGigDto(jobService.getGigByGigId(gigId));
+    @GetMapping("/{jobId}")
+    public JobDto getJob(@PathVariable String jobId) {
+        log.info("Request receive to get gig for gigId {}", jobId);
+        return Job.convertToJobDto(jobService.getJobByJobId(jobId));
     }
 
     @PostMapping("/")
-    public JobDto postGig(@RequestBody JobDto jobDto) {
-        log.info("Insert new gig for gigId {}", jobDto.getGigId());
-        return Job.convertToGigDto(jobService.insertGig(jobDto));
+    public JobDto postJob(@RequestBody JobDto jobDto) {
+        log.info("Insert new gig for gigId {}", jobDto.getJobId());
+        return Job.convertToJobDto(jobService.insertJob(jobDto));
     }
 
     @GetMapping("/")
-    public List<JobDto> getAllGigs() {
-        log.info("Get all gigs");
-        return jobService.findAllGigs();
+    public List<JobDto> getAllJobs() {
+        log.info("Get all jobs");
+        return jobService.findAllJobs();
     }
 
 

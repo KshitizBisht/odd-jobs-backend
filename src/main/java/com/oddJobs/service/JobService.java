@@ -23,35 +23,27 @@ public class JobService {
     private final JobRepository jobRepository;
     private final RetryableWriteRepository<Job> gigRetryableWriteRepository;
 
-    public Job getGigById(String id) {
-        Optional<Job> gig = jobRepository.findGigById(id);
+    public Job getJobByJobId(String jobId) {
+        Optional<Job> gig = jobRepository.findJobByJobId(jobId);
         if (gig.isEmpty()) {
-            throw new NoSuchElementException(String.format(NOT_FOUND, "Gig"));
+            throw new NoSuchElementException(String.format(NOT_FOUND, "Job"));
         }
         return gig.get();
     }
 
-    public Job getGigByGigId(String gigId) {
-        Optional<Job> gig = jobRepository.findGigByGigId(gigId);
-        if (gig.isEmpty()) {
-            throw new NoSuchElementException(String.format(NOT_FOUND, "Gig"));
-        }
-        return gig.get();
-    }
-
-    public Job insertGig(JobDto jobDto) {
+    public Job insertJob(JobDto jobDto) {
         Job savedJob;
         try {
-            savedJob = gigRetryableWriteRepository.insert(Job.convertFromGigDto(jobDto));
+            savedJob = gigRetryableWriteRepository.insert(Job.convertFromJobDto(jobDto));
         } catch (DuplicateKeyException e) {
             throw new IllegalStateException(DUPLICATE_KEY_EXCEPTION);
         }
         return savedJob;
     }
 
-    public List<JobDto> findAllGigs() {
+    public List<JobDto> findAllJobs() {
         List<Job> jobs = jobRepository.findAll();
-        return jobs.stream().map(Job::convertToGigDto).collect(Collectors.toList());
+        return jobs.stream().map(Job::convertToJobDto).collect(Collectors.toList());
     }
 
 }

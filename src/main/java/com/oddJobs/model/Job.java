@@ -10,7 +10,10 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-@Document(collection = "Gigs")
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Document(collection = "Jobs")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,8 +23,8 @@ public class Job {
     @Id
     private ObjectId id;
 
-    @Field("gig_id")
-    private String gigId;
+    @Field("job_id")
+    private String jobId;
 
     @Field("title")
     private String title;
@@ -47,10 +50,19 @@ public class Job {
     @Field("difficulty_level")
     private DifficultyLevel difficultyLevel;
 
+    @Field("reward")
+    private int reward;
 
-    public static JobDto convertToGigDto(Job job) {
+    @Field("tags")
+    private List<String> tags;
+
+    @Field("posted_on")
+    private LocalDateTime postedOn;
+
+
+    public static JobDto convertToJobDto(Job job) {
         return JobDto.builder()
-                .gigId(job.getGigId())
+                .jobId(job.getJobId())
                 .title(job.getTitle())
                 .duration(job.getDuration())
                 .description(job.getDescription())
@@ -59,12 +71,15 @@ public class Job {
                 .postedBy(job.getPostedBy())
                 .completed(job.getCompleted())
                 .difficultyLevel(job.getDifficultyLevel().toString())
+                .reward(job.getReward())
+                .tags(job.tags)
+                .postedOn(job.postedOn)
                 .build();
     }
 
-    public static Job convertFromGigDto(JobDto jobDto) {
+    public static Job convertFromJobDto(JobDto jobDto) {
         return Job.builder()
-                .gigId(jobDto.getGigId())
+                .jobId(jobDto.getJobId())
                 .title(jobDto.getTitle())
                 .duration(jobDto.getDuration())
                 .description(jobDto.getDescription())
@@ -73,6 +88,9 @@ public class Job {
                 .postedBy(jobDto.getPostedBy())
                 .completed(jobDto.getCompleted())
                 .difficultyLevel(DifficultyLevel.valueOf(jobDto.getDifficultyLevel().toUpperCase()))
+                .reward(jobDto.getReward())
+                .tags(jobDto.getTags())
+                .postedOn(jobDto.getPostedOn())
                 .build();
     }
 }
