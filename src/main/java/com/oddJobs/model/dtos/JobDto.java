@@ -20,5 +20,5 @@ public class JobDto {
     private String difficultyLevel;
     private int reward;
     private List<String> tags;
-    private LocalDateTime postedOn;
+    private String postedOn;
 }

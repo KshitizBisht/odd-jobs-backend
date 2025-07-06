@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -14,4 +15,6 @@ import java.util.Optional;
 public interface JobRepository extends MongoRepository<Job, ObjectId> {
 
     public Optional<Job> findJobByJobId(String jobId);
+
+    public List<Job> findAllJobsWherePostedBy(String personId);
 }

@@ -8,6 +8,7 @@ import com.oddJobs.repository.RetryableWriteRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -44,6 +45,12 @@ public class JobService {
     public List<JobDto> findAllJobs() {
         List<Job> jobs = jobRepository.findAll();
         return jobs.stream().map(Job::convertToJobDto).collect(Collectors.toList());
+    }
+
+    public List<JobDto> findAllPostedJobsForPerson(String personId) {
+        List<Job> jobs = jobRepository.findAllJobsWherePostedBy(personId);
+        return jobs.isEmpty() ? Collections.emptyList() :
+        jobs.stream().map(Job::convertToJobDto).collect(Collectors.toList());
     }
 
 }

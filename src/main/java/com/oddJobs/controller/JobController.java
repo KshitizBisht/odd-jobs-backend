@@ -19,7 +19,7 @@ public class JobController {
 
     private final JobService jobService;
 
-    @GetMapping("/{jobId}")
+    @GetMapping("/job/{jobId}")
     public JobDto getJob(@PathVariable String jobId) {
         log.info("Request receive to get gig for gigId {}", jobId);
         return Job.convertToJobDto(jobService.getJobByJobId(jobId));
@@ -37,5 +37,10 @@ public class JobController {
         return jobService.findAllJobs();
     }
 
+    @GetMapping("/{userId}")
+    public List<JobDto> getPostedJobsForPerson(@PathVariable String userId) {
+        log.info("Getting all jobs for userId{}", userId);
+        return jobService.findAllPostedJobsForPerson(userId);
+    }
 
 }

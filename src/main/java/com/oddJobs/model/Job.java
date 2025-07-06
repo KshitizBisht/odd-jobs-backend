@@ -10,7 +10,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Document(collection = "Jobs")
@@ -57,7 +59,7 @@ public class Job {
     private List<String> tags;
 
     @Field("posted_on")
-    private LocalDateTime postedOn;
+    private Instant postedOn;
 
 
     public static JobDto convertToJobDto(Job job) {
@@ -73,7 +75,7 @@ public class Job {
                 .difficultyLevel(job.getDifficultyLevel().toString())
                 .reward(job.getReward())
                 .tags(job.tags)
-                .postedOn(job.postedOn)
+                .postedOn(job.getPostedOn().toString())
                 .build();
     }
 
@@ -90,7 +92,7 @@ public class Job {
                 .difficultyLevel(DifficultyLevel.valueOf(jobDto.getDifficultyLevel().toUpperCase()))
                 .reward(jobDto.getReward())
                 .tags(jobDto.getTags())
-                .postedOn(jobDto.getPostedOn())
+                .postedOn(Instant.ofEpochMilli(Long.parseLong(jobDto.getPostedOn())))
                 .build();
     }
 }

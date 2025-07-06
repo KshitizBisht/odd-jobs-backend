@@ -1,10 +1,13 @@
 package com.oddJobs.model;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Getter
+@RequiredArgsConstructor
 public enum DifficultyLevel {
-    EASY,
-    MEDIUM,
-    HARD
+    EASY("easy"),
+    MEDIUM("medium"),
+    HARD("hard");
+    private final String level;
 }
