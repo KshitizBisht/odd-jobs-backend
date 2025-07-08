@@ -14,7 +14,8 @@ import java.util.Optional;
 @Transactional
 public interface JobRepository extends MongoRepository<Job, ObjectId> {
 
-    public Optional<Job> findJobByJobId(String jobId);
+    Optional<Job> findJobByJobId(String jobId);
 
-    public List<Job> findAllJobsWherePostedBy(String personId);
+    @Query("{ 'posted_by': ?0 }")
+    List<Job> findAllJobsWherePostedBy(String personId);
 }
